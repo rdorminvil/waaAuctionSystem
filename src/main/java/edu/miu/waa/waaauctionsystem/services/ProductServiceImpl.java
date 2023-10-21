@@ -3,6 +3,8 @@ package edu.miu.waa.waaauctionsystem.services;
 import edu.miu.waa.waaauctionsystem.models.Product;
 import edu.miu.waa.waaauctionsystem.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,5 +52,10 @@ public class ProductServiceImpl implements ProductService{
             }
         );
          return productRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<Product> getProductByPage(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 }
