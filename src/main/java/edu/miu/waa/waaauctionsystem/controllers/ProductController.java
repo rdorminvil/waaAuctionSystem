@@ -17,20 +17,19 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final ProductService productService;
     private final ResponseHandler responseHandler;
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Object> getProduct(@PathVariable Long id){
+    @GetMapping(path = "product")
+    public ResponseEntity<Object> getProduct(@RequestParam Long id){
         Product product=productService.getById(id).orElse(null);
         if(null!=product){
-            return responseHandler.response(product, "Succeed", HttpStatus.OK);
+            return responseHandler.response(product, "Success", HttpStatus.OK);
         }
         return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
     @GetMapping
     public ResponseEntity<Object> getProducts(@RequestParam int page, @RequestParam int pageSize){
-        Pageable pageable= PageRequest.of(page, pageSize);
-        Page<Product> productPage=productService.getProductByPage(pageable);
+        Page<Product> productPage=productService.getProductByPage(page, pageSize);
         if(null!=productPage){
-            return responseHandler.response(productPage, "Succeed", HttpStatus.OK);
+            return responseHandler.response(productPage, "Success", HttpStatus.OK);
         }
         return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
@@ -38,12 +37,20 @@ public class ProductController {
     public ResponseEntity<Object> createProduct(@RequestBody Product product){
         Product createdProduct=productService.creatProduct(product);
         if (null!=createdProduct){
-            return responseHandler.response(createdProduct, "Succeed", HttpStatus.OK);
+            return responseHandler.response(createdProduct, "Success", HttpStatus.OK);
         }
-        return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
+        return responseHandler.response(null, "Failed", HttpStatus.EXPECTATION_FAILED);
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping
     public void deleteProduct(@RequestParam Long id){
-        
+        productService.deleteProductById(id);
+    }
+    @PutMapping
+    public ResponseEntity<Object> updateProduct(@RequestParam Long id, @RequestParam Product product){
+        Product updatedProduct= productService.updateProduct(id, product);
+        if (null!= updatedProduct){
+            return responseHandler.response(updatedProduct, "Success", HttpStatus.OK);
+        }
+        return responseHandler.response(null, "Failed", HttpStatus.NOT_MODIFIED);
     }
 }

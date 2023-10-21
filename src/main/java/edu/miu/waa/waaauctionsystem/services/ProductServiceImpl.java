@@ -4,6 +4,7 @@ import edu.miu.waa.waaauctionsystem.models.Product;
 import edu.miu.waa.waaauctionsystem.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,8 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Page<Product> getProductByPage(Pageable pageable) {
+    public Page<Product> getProductByPage(int page, int pageSize) {
+        Pageable pageable= PageRequest.of(page, pageSize);
         return productRepository.findAll(pageable);
     }
 }

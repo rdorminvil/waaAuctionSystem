@@ -14,6 +14,6 @@ public interface ProductService {
     public Product creatProduct(Product product);
     public void deleteProductById(Long id);
     public Product updateProduct(Long id, Product product);
-    Page<Product> getProductByPage(Pageable pageable);
+    Page<Product> getProductByPage(int page, int pageSize);
 
 }

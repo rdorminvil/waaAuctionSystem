@@ -3,7 +3,6 @@ package edu.miu.waa.waaauctionsystem.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
