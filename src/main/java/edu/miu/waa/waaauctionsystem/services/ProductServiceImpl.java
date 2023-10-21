@@ -49,6 +49,7 @@ public class ProductServiceImpl implements ProductService{
                 prod.setBidDueDate(product.getBidDueDate());
                 prod.setBidPaymentDueDate(product.getBidPaymentDueDate());
                 prod.setStartPrice(product.getStartPrice());
+                prod.setSaveMode(product.getSaveMode());
                 productRepository.save(prod);
             }
         );

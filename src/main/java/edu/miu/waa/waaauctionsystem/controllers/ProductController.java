@@ -42,8 +42,9 @@ public class ProductController {
         return responseHandler.response(null, "Failed", HttpStatus.EXPECTATION_FAILED);
     }
     @DeleteMapping
-    public void deleteProduct(@RequestParam Long id){
+    public ResponseEntity<Object> deleteProduct(@RequestParam Long id){
         productService.deleteProductById(id);
+        return responseHandler.response(null, "Success", HttpStatus.OK);
     }
     @PutMapping
     public ResponseEntity<Object> updateProduct(@RequestParam Long id, @RequestParam Product product){

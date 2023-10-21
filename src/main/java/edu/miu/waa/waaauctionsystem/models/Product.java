@@ -19,10 +19,9 @@ public class Product {
     private float deposit;
     private LocalDate bidDueDate;
     private LocalDate bidPaymentDueDate;
-    @OneToMany//(mappedBy = "product")
+    private SaveMode saveMode;
+    @OneToMany
     private List<Category> categories;
     @ManyToOne
-    private User userSeller;
-    @ManyToMany
-    private List<User> userCustomer;
+    private User user;
 }

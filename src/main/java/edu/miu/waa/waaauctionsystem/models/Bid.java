@@ -14,7 +14,7 @@ public class Bid {
     private Long id;
     private float biddingPrice;
     private LocalDate biddingDate;
-    @OneToOne
+    @ManyToOne
     private User user;
     @OneToOne
     private Product product;
