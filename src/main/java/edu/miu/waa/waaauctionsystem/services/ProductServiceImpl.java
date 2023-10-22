@@ -25,8 +25,10 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getAllByName(String name) {
-        return productRepository.findAllByName(name);
+    public Page<Product> getAllByName(String name, int page, int pageSize) {
+        Pageable pageable=PageRequest.of(page, pageSize);
+        System.out.println("this is output"+productRepository.findAllByName(name, pageable));
+        return productRepository.findAllByName(name, pageable);
     }
 
     @Override
@@ -48,8 +50,8 @@ public class ProductServiceImpl implements ProductService{
                 prod.setDeposit(product.getDeposit());
                 prod.setBidDueDate(product.getBidDueDate());
                 prod.setBidPaymentDueDate(product.getBidPaymentDueDate());
-                prod.setStartPrice(product.getStartPrice());
-                prod.setSaveMode(product.getSaveMode());
+                prod.setBidStartPrice(product.getBidStartPrice());
+                prod.setReleaseMode(product.getReleaseMode());
                 productRepository.save(prod);
             }
         );

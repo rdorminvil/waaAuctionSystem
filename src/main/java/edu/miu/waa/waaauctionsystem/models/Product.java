@@ -15,13 +15,14 @@ public class Product {
     private Long id;
     private String name;
     private String description;
-    private float startPrice;
+    private float bidStartPrice;
     private float deposit;
     private LocalDate bidDueDate;
     private LocalDate bidPaymentDueDate;
-    private SaveMode saveMode;
+    private Boolean releaseMode;
     @OneToMany
     private List<Category> categories;
     @ManyToOne
+    //@JoinTable(name="sellerProduct", joinColumns = {@JoinColumn(name ="productId")}, inverseJoinColumns = {@})
     private User user;
 }
