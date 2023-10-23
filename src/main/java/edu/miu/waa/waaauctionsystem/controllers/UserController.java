@@ -19,19 +19,21 @@ public class UserController {
     private final ResponseHandler responseHandler;
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUser(@PathVariable Long id){
-        User user=userService.getById(id).orElse(null);
-        if(null!=user){
+        try {
+            User user=userService.getById(id).orElse(null);
             return responseHandler.response(user, "Success", HttpStatus.OK);
+        }catch (Exception e){
+            return responseHandler.response(null, ""+e, HttpStatus.NOT_FOUND);
         }
-        return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<Object> getUserByEmail(@PathVariable String email){
-        User user=userService.getByEmail(email).orElse(null);
-        if(null!=user){
+        try {
+            User user=userService.getByEmail(email).orElse(null);
             return responseHandler.response(user, "Success", HttpStatus.OK);
+        }catch (Exception e){
+            return responseHandler.response(null, ""+e, HttpStatus.NOT_FOUND);
         }
-        return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
     @PostMapping
     public ResponseEntity<Object> createUser(@RequestBody User user){
@@ -52,8 +54,13 @@ public class UserController {
         }
     }
     @DeleteMapping
-    public void deleteUser(){
-
+    public ResponseEntity<Object> deleteUser(@RequestParam Long id){
+        try{
+            userService.deleteUserById(id);
+            return responseHandler.response(null, "Success", HttpStatus.OK);
+        }catch (Exception e){
+            return responseHandler.response(null, "Failed : "+e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

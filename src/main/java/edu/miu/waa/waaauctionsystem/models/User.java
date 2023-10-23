@@ -32,7 +32,14 @@ public class User implements UserDetails {
         this.roles.add(role);
         return role;
     }
-
+    public User increaseBalance(float value){
+        this.accountBalance+=value;
+        return this;
+    }
+    public User decreaseBalance(float value){
+        this.accountBalance-=value;
+        return this;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

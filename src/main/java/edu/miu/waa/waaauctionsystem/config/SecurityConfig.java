@@ -23,15 +23,15 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf-> csrf.disable())
+/*        http.csrf(csrf-> csrf.disable())
                 .authorizeHttpRequests(auth-> auth.anyRequest().permitAll())
                 .sessionManagement(manager ->
-                        manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-/*        http.csrf(csrf-> csrf.disable())
-                .authorizeHttpRequests(auth-> auth.requestMatchers("/auth/**","/user/**")
+                        manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));*/
+        http.csrf(csrf-> csrf.disable())
+                .authorizeHttpRequests(auth-> auth.requestMatchers("/api/auth/**","/api/users/**")
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager ->
-                        manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));*/
+                        manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
     @Bean
