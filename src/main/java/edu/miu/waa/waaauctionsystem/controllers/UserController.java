@@ -26,15 +26,7 @@ public class UserController {
             return responseHandler.response(null, ""+e, HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Object> getUserByEmail(@PathVariable String email){
-        try {
-            User user=userService.getByEmail(email).orElse(null);
-            return responseHandler.response(user, "Success", HttpStatus.OK);
-        }catch (Exception e){
-            return responseHandler.response(null, ""+e, HttpStatus.NOT_FOUND);
-        }
-    }
+
     @PostMapping
     public ResponseEntity<Object> createUser(@RequestBody User user){
         try{
