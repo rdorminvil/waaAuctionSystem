@@ -11,18 +11,17 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "productId")
+    //@Column(name = "productId")
     private Long id;
     private String name;
     private String description;
     private float bidStartPrice;
-    private float deposit;
     private LocalDate bidDueDate;
     private LocalDate bidPaymentDueDate;
-    private Boolean releaseMode;
+    private Boolean isRelease;
     @OneToMany
     private List<Category> categories;
     @ManyToOne
-    //@JoinTable(name="sellerProduct", joinColumns = {@JoinColumn(name ="productId")}, inverseJoinColumns = {@})
-    private User user;
+    @JoinTable(name="sellerProduct", joinColumns = {@JoinColumn(name ="productId")}, inverseJoinColumns = {@JoinColumn(name ="sellerId")})
+    private User userSeller;
 }

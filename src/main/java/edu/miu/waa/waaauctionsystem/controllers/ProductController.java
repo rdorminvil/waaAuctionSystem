@@ -74,9 +74,13 @@ public class ProductController {
     }
     @PutMapping
     public ResponseEntity<Object> updateProduct(@RequestParam Long id, @RequestParam Product product){
-        Product updatedProduct= productService.updateProduct(id, product);
-        if (null!= updatedProduct){
-            return responseHandler.response(updatedProduct, "Success", HttpStatus.OK);
+        try{
+            Product updatedProduct= productService.updateProduct(id, product);
+            if (null!= updatedProduct){
+                return responseHandler.response(updatedProduct, "Success", HttpStatus.OK);
+            }
+        }catch (Exception e){
+            return responseHandler.response(null, ""+e, HttpStatus.NOT_MODIFIED);
         }
         return responseHandler.response(null, "Failed", HttpStatus.NOT_MODIFIED);
     }
