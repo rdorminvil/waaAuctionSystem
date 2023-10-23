@@ -25,14 +25,14 @@ public class UserController {
         }
         return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/{email}")
-    public ResponseEntity<Object> getUserByEmail(@PathVariable String email){
-        User user=userService.getByEmail(email).orElse(null);
-        if(null!=user){
-            return responseHandler.response(user, "Success", HttpStatus.OK);
-        }
-        return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
-    }
+//    @GetMapping("/{email}")
+//    public ResponseEntity<Object> getUserByEmail(@PathVariable String email){
+//        User user=userService.getByEmail(email).orElse(null);
+//        if(null!=user){
+//            return responseHandler.response(user, "Success", HttpStatus.OK);
+//        }
+//        return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
+//    }
     @PostMapping
     public ResponseEntity<Object> createUser(@RequestBody User user){
         try{
