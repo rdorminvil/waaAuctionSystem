@@ -18,7 +18,7 @@ public class Product {
     private float bidStartPrice;
     private LocalDate bidDueDate;
     private LocalDate bidPaymentDueDate;
-    //private String description;
+    private int bidCount=0;
     private boolean isRelease;
 /*    @OneToMany(cascade = CascadeType.ALL)
     private List<Category> categories;*/
@@ -26,4 +26,7 @@ public class Product {
     @ManyToOne
     @JoinTable(name="sellerProduct", joinColumns = {@JoinColumn(name ="productId")}, inverseJoinColumns = {@JoinColumn(name ="sellerId")})
     private User userSeller;
+    public void increaseBidCount(){
+        this.bidCount++;
+    }
 }

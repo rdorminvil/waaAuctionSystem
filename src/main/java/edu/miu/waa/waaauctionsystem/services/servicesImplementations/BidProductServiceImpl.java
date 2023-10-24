@@ -5,6 +5,7 @@ import edu.miu.waa.waaauctionsystem.models.BidProduct;
 import edu.miu.waa.waaauctionsystem.models.Product;
 import edu.miu.waa.waaauctionsystem.models.User;
 import edu.miu.waa.waaauctionsystem.repositories.BidProductRepository;
+import edu.miu.waa.waaauctionsystem.repositories.UserRepository;
 import edu.miu.waa.waaauctionsystem.services.BidProductService;
 import edu.miu.waa.waaauctionsystem.services.BidService;
 import edu.miu.waa.waaauctionsystem.services.ProductService;
@@ -13,14 +14,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +27,10 @@ public class BidProductServiceImpl implements BidProductService {
     private final BidProductRepository bidProductRepository;
     private final UserService userService;
     private final ProductService productService;
-
+    private final UserRepository userRepository;
     public List<BidProduct> getBidProductByEmail(String email){
-        User user=userService.getByEmail(email).orElse(null);
-        //ong userId;
+
+        User user=userService.getByEmail(email).orElseThrow(()-> new RuntimeException("User not found"));
         if (null!=user){
             Long userId=user.getId();
             return bidProductRepository.findAllByUser_Id(userId);
@@ -40,41 +38,44 @@ public class BidProductServiceImpl implements BidProductService {
         return null;
     }
     @Override
-    public BidProduct createBidProduct(String email, Long productId, float deposit) throws Exception {
-        System.out.println("inside service"+getBidProductByEmail(email));
-
-        List<BidProduct> bidProducts=getBidProductByEmail(email);
-        System.out.println("Je sssssssssss"+bidProducts);
-        BidProduct bidProduct=null;
-        if (null!=bidProducts){
-            for (BidProduct elem:bidProducts
-                 ) {
-                if (elem.getProduct().getId().equals(productId)){
-                    bidProduct=elem;
-                    break;
+    public BidProduct createBidProduct(String email, Long productId, float deposit) {
+            List<BidProduct> bidProducts=getBidProductByEmail(email);
+            BidProduct bidProduct=null;
+            if (!bidProducts.isEmpty()) {
+                for (BidProduct elem : bidProducts
+                ) {
+                    if (elem.getProduct().getId().equals(productId)) {
+                        bidProduct = elem;
+                        break;
+                    }
                 }
             }
-            if (null!=bidProduct){
+           if (null!=bidProduct) {
                 if (!bidProduct.isCompleted()) {
-                    Bid bid = new Bid(deposit, LocalDate.now(), bidProduct);
+                    Bid bid = new Bid(deposit, LocalDate.now());
                     bidProduct.addBid(bid);
-                    updateBidProduct(bidProduct.getId(),bidProduct);
+                    updateBidProduct(bidProduct.getId(), bidProduct);
                     bidService.createBid(bid);
-                }
-                else {
-                    throw new Exception("Bid has been completed for this product");
+                    User user = userService.getByEmail(email).orElse(null);
+                    if (null != user){
+                        user.decreaseBalance(deposit);
+                        userService.updateUser(user.getId(), user);
+                    }
+                    return bidProduct;
                 }
             }
-        }else {
-            User user = userService.getByEmail(email).orElse(null);
-            Product product = productService.getById(productId).orElse(null);
-            if (null != user && null != product) {
-                BidProduct newBidProduct = new BidProduct(user, product);
-                Bid newBid = new Bid(deposit, LocalDate.now(), newBidProduct);
-                newBidProduct.addBid(newBid);
-                return bidProductRepository.save(newBidProduct) ;
+           User user = userService.getByEmail(email).orElse(null);
+        Product product = productService.getById(productId).orElse(null);
+        if (null != user && null != product) {
+                Bid newBid = new Bid(deposit, LocalDate.now());
+                BidProduct newBidProduct = new BidProduct(user, product, newBid);
+                BidProduct createdNewBidProduct =bidProductRepository.save(newBidProduct) ;
+                user.decreaseBalance(deposit);
+                userService.updateUser(user.getId(), user);
+                product.increaseBidCount();
+                productService.updateProduct(productId, product);
+                return newBidProduct ;
             }
-        }
         return null;
     }
 
