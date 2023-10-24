@@ -32,7 +32,6 @@ public class ProductController {
         return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
     @GetMapping
-    @CrossOrigin
     public ResponseEntity<Object> getProducts(@RequestParam int page, @RequestParam int pageSize){
 
         try{
