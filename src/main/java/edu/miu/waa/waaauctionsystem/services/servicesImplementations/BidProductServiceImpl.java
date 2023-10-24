@@ -59,7 +59,7 @@ public class BidProductServiceImpl implements BidProductService {
                     throw new Exception("Bid has been completed for this product");
                 }
             }else {
-
+                System.out.println();
             }
         }
 
