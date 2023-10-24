@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> getAllByName(String name, int page, int pageSize) {
         Pageable pageable=PageRequest.of(page, pageSize);
         System.out.println("this is output"+productRepository.findAllByName(name, pageable));
-        return productRepository.findAllByName(name, pageable);
+        return productRepository.findAllByNameContainingIgnoreCase(name, pageable);
     }
 
     @Override
@@ -68,6 +68,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getProductByPage(int page, int pageSize) {
         Pageable pageable= PageRequest.of(page, pageSize);
-        return productRepository.findAll(pageable);
+        return productRepository.findAllProductsByIsReleased(pageable);
+    }
+
+    @Override
+    public List<Product> getProductByRelease(boolean release) {
+        return productRepository.findProductsByRelease(release);
     }
 }

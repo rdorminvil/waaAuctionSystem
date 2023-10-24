@@ -15,4 +15,6 @@ public interface ProductService {
     public Product updateProduct(Long id, Product product);
     public Page<Product> getProductByPage(int page, int pageSize);
 
+    public List<Product> getProductByRelease(boolean release);
+
 }
