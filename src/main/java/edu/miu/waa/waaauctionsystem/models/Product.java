@@ -18,8 +18,9 @@ public class Product {
     private float bidStartPrice;
     private LocalDate bidDueDate;
     private LocalDate bidPaymentDueDate;
-    private Boolean isRelease;
-    @OneToMany
+    //private String description;
+    private boolean isRelease;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Category> categories;
     @ManyToOne
     @JoinTable(name="sellerProduct", joinColumns = {@JoinColumn(name ="productId")}, inverseJoinColumns = {@JoinColumn(name ="sellerId")})

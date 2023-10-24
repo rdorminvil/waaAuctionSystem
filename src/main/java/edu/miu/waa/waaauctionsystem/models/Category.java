@@ -11,7 +11,6 @@ public class Category {
     @Column(name = "categoryId")
     private Long id;
     private String name;
-    private String description;
 /*    @ManyToOne
     private Product product;*/
 }

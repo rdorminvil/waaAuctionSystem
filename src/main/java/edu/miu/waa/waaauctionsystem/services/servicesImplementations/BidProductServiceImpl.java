@@ -2,10 +2,12 @@ package edu.miu.waa.waaauctionsystem.services.servicesImplementations;
 
 import edu.miu.waa.waaauctionsystem.models.Bid;
 import edu.miu.waa.waaauctionsystem.models.BidProduct;
+import edu.miu.waa.waaauctionsystem.models.Product;
 import edu.miu.waa.waaauctionsystem.models.User;
 import edu.miu.waa.waaauctionsystem.repositories.BidProductRepository;
 import edu.miu.waa.waaauctionsystem.services.BidProductService;
 import edu.miu.waa.waaauctionsystem.services.BidService;
+import edu.miu.waa.waaauctionsystem.services.ProductService;
 import edu.miu.waa.waaauctionsystem.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ public class BidProductServiceImpl implements BidProductService {
     private final BidService  bidService;
     private final BidProductRepository bidProductRepository;
     private final UserService userService;
+    private final ProductService productService;
 
     public List<BidProduct> getBidProductByEmail(String email){
         User user=userService.getByEmail(email).orElseThrow(()-> new UsernameNotFoundException(email+" Not Found"));
@@ -38,7 +41,9 @@ public class BidProductServiceImpl implements BidProductService {
     }
     @Override
     public BidProduct createBidProduct(String email, Long productId, float deposit) throws Exception {
+
         List<BidProduct> bidProducts=getBidProductByEmail(email);
+        System.out.println("Je sssssssssss"+bidProducts);
         BidProduct bidProduct=null;
         if (!bidProducts.isEmpty()){
             for (BidProduct elem:bidProducts
@@ -58,36 +63,17 @@ public class BidProductServiceImpl implements BidProductService {
                 else {
                     throw new Exception("Bid has been completed for this product");
                 }
-            }else {
-                System.out.println();
+            }
+        }else {
+            User user = userService.getByEmail(email).orElse(null);
+            Product product = productService.getById(productId).orElse(null);
+            if (null != user && null != product) {
+                BidProduct newBidProduct = new BidProduct(user, product);
+                Bid newBid = new Bid(deposit, LocalDate.now(), newBidProduct);
+                newBidProduct.addBid(newBid);
+                return bidProductRepository.save(newBidProduct) ;
             }
         }
-
-/*      List<BidProduct> bidProducts=bidProductRepository.findAllByUser_Id(userId).getContent();
-        BidProduct bidProduct=null;
-        if(!bidProducts.isEmpty() ) {
-            for (BidProduct elem : bidProducts
-            ) {
-                if (elem.getProduct().getId().equals(productId)) {
-                    bidProduct = elem;
-                    break;
-                }
-            }
-        }
-        if(null!=bidProduct && !bidProduct.isCompleted()){
-
-        }
-*//**//*        bidProduct.forEach(elem-> {
-            if (Objects.equals(elem.getProduct().getId(), productId))
-                isFound=true;
-        });*//**//*
-        if(!isFound){
-            bidProduct=bidProductRepository.save(new BidProduct(userId, productId));
-        }
-        Bid bid=new Bid();
-        bid.setBidProducts( List.of(bidProduct);
-        bidService.createBid(bidProduct, deposit, LocalDate.now())*//*
-*/
         return null;
     }
 

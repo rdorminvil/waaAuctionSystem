@@ -46,13 +46,13 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Long id, Product product) {
         Optional<Product> updatedProduct= productRepository.findById(id);
          updatedProduct.ifPresent(prod->{
-                if (!prod.getIsRelease()) {
+                if (!prod.isRelease()) {
                     prod.setName(product.getName());
                     prod.setDescription(product.getDescription());
                     prod.setBidDueDate(product.getBidDueDate());
                     prod.setBidPaymentDueDate(product.getBidPaymentDueDate());
                     prod.setBidStartPrice(product.getBidStartPrice());
-                    prod.setIsRelease(product.getIsRelease());
+                    prod.setRelease(product.isRelease());
                     productRepository.save(prod);
                 }else {
                     throw new RuntimeException("Product has been release");

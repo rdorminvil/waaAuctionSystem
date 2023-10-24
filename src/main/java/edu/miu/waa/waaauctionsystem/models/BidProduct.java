@@ -18,9 +18,9 @@ public class BidProduct {
     private User user;
     @OneToOne
     private Product product;
-    @OneToMany(mappedBy = "bidProduct")
+    @OneToMany(mappedBy = "bidProduct", cascade = CascadeType.PERSIST)
     private List<Bid> bids;
-    public BidProduct(Long userId, Long productId) {
+    public BidProduct(User user, Product product) {
     }
     public void addBid(Bid bid){
         this.bids.add(bid);
