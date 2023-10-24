@@ -53,6 +53,9 @@ public class ProductServiceImpl implements ProductService {
                     prod.setBidPaymentDueDate(product.getBidPaymentDueDate());
                     prod.setBidStartPrice(product.getBidStartPrice());
                     prod.setRelease(product.isRelease());
+                    prod.setCategory(product.getCategory());
+                    prod.setUserSeller(product.getUserSeller());
+                    prod.setBidCount(product.getBidCount());
                     productRepository.save(prod);
                 }else {
                     throw new RuntimeException("Product has been release");
