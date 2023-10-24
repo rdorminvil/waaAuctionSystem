@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface BidProductService {
-    public BidProduct createBidProduct(Long userId, Long productId, float deposit);
-    public BidProduct updateBidProduct();
+    public BidProduct createBidProduct(String user, Long productId, float deposit) throws Exception;
+    public BidProduct updateBidProduct(Long id, BidProduct bidProduct);
     public BidProduct deleteBidProduct();
     public Page<BidProduct> getAllBidProduct();
     public Page<BidProduct> getAllBidProductByCustomer();

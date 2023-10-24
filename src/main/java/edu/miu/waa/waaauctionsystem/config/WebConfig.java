@@ -14,10 +14,12 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                WebMvcConfigurer.super.addCorsMappings(registry);
-                registry.addMapping("/**")
+//                WebMvcConfigurer.super.addCorsMappings(registry);
+                registry.addMapping("/api/**")
                         .allowedOrigins("*")
                         .allowedMethods("*");
+//                        .allowCredentials(true);
+//                        .maxAge(36000);
             }
         };
     }

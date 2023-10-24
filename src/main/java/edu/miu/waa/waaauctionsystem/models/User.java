@@ -23,9 +23,9 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "userId"))
     private List<Role> roles;
-    @OneToMany(mappedBy = "userSeller")
+    @OneToMany(mappedBy = "userSeller", fetch = FetchType.LAZY)
     private List<Product> products;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<BidProduct> bidProducts;
     private float accountBalance=10000;
     public Role addRole(Role role){

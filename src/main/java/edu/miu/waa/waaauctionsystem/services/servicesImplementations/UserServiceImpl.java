@@ -1,5 +1,6 @@
 package edu.miu.waa.waaauctionsystem.services.servicesImplementations;
 
+import edu.miu.waa.waaauctionsystem.models.Role;
 import edu.miu.waa.waaauctionsystem.models.User;
 import edu.miu.waa.waaauctionsystem.repositories.UserRepository;
 import edu.miu.waa.waaauctionsystem.services.UserService;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User creatUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRoles().contains(Role.SELLER)){
+            user.addRole(Role.CUSTOMER);
+        }
         return userRepository.save(user);
     }
 

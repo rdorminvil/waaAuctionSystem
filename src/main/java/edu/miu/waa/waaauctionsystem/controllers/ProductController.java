@@ -18,12 +18,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProductController {
     private final ProductService productService;
     private final ResponseHandler responseHandler;
 
-    @GetMapping(path = "product")
-    public ResponseEntity<Object> getProduct(@RequestParam Long id){
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Object> getProduct(@PathVariable Long id){
         Product product=productService.getById(id).orElse(null);
         if(null!=product){
             return responseHandler.response(product, "Success", HttpStatus.OK);
@@ -31,6 +32,7 @@ public class ProductController {
         return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
     @GetMapping
+    @CrossOrigin
     public ResponseEntity<Object> getProducts(@RequestParam int page, @RequestParam int pageSize){
 
         try{
@@ -40,7 +42,7 @@ public class ProductController {
             return responseHandler.response(null, ""+e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<Object> getProductsByName(@PathVariable String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int pageSize){
         try{
             Page<Product> productPage= productService.getAllByName(name, page, pageSize);
