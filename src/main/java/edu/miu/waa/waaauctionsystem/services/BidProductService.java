@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 public interface BidProductService {
     public BidProduct createBidProduct(String user, Long productId, float deposit);
     public BidProduct updateBidProduct(Long id, BidProduct bidProduct);
+    public Page<BidProduct> findBidProductByUserId(Long id);
+    public Page<BidProduct> findBidProductByUserIdAndProductId(Long userId, Long productId);
+
     public BidProduct deleteBidProduct();
     public Page<BidProduct> getAllBidProduct();
     public Page<BidProduct> getAllBidProductByCustomer();

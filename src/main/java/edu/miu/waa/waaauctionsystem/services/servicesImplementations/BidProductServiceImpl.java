@@ -93,6 +93,16 @@ public class BidProductServiceImpl implements BidProductService {
     }
 
     @Override
+    public Page<BidProduct> findBidProductByUserId(Long id) {
+        return bidProductRepository.findBidProductByUserId(id);
+    }
+
+    @Override
+    public Page<BidProduct> findBidProductByUserIdAndProductId(Long userId, Long productId) {
+        return bidProductRepository.findBidProductByUserIdAndProductId(userId, productId);
+    }
+
+    @Override
     public BidProduct deleteBidProduct() {
         return null;
     }

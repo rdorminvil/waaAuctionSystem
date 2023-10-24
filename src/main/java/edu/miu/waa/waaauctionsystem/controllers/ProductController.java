@@ -52,15 +52,6 @@ public class ProductController {
         }
     }
 
-/*    private ResponseEntity<Object> getObjectResponseEntity(Page<Product> productPage) {
-        Map<String, Object> response=new HashMap<>();
-        response.put("products", productPage.getContent());
-        response.put("currentPage", productPage.getNumber());
-        response.put("totalItems", productPage.getTotalElements());
-        response.put("totalPages", productPage.getTotalPages());
-        return responseHandler.response(response, "Success", HttpStatus.OK);
-    }*/
-
     @PostMapping
     public ResponseEntity<Object> createProduct(@RequestBody Product product){
         Product createdProduct=productService.creatProduct(product);
