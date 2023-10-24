@@ -3,7 +3,7 @@ package edu.miu.waa.waaauctionsystem.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
+//@Entity
 @Data
 public class Category {
     @Id

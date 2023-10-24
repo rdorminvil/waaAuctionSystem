@@ -31,21 +31,22 @@ public class BidProductServiceImpl implements BidProductService {
     private final ProductService productService;
 
     public List<BidProduct> getBidProductByEmail(String email){
-        User user=userService.getByEmail(email).orElseThrow(()-> new UsernameNotFoundException(email+" Not Found"));
-        Long userId;
+        User user=userService.getByEmail(email).orElse(null);
+        //ong userId;
         if (null!=user){
-            userId=user.getId();
+            Long userId=user.getId();
             return bidProductRepository.findAllByUser_Id(userId);
         }
         return null;
     }
     @Override
     public BidProduct createBidProduct(String email, Long productId, float deposit) throws Exception {
+        System.out.println("inside service"+getBidProductByEmail(email));
 
         List<BidProduct> bidProducts=getBidProductByEmail(email);
         System.out.println("Je sssssssssss"+bidProducts);
         BidProduct bidProduct=null;
-        if (!bidProducts.isEmpty()){
+        if (null!=bidProducts){
             for (BidProduct elem:bidProducts
                  ) {
                 if (elem.getProduct().getId().equals(productId)){
