@@ -2,6 +2,7 @@ package edu.miu.waa.waaauctionsystem.controllers;
 
 import edu.miu.waa.waaauctionsystem.libs.ResponseHandler;
 import edu.miu.waa.waaauctionsystem.models.Product;
+import edu.miu.waa.waaauctionsystem.models.User;
 import edu.miu.waa.waaauctionsystem.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -44,8 +47,10 @@ public class ProductController {
 
     @GetMapping("/released")
     public ResponseEntity<Object> getReleasedProducts(@RequestParam boolean status){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        User user= (User) auth.getPrincipal();
         try{
-            List<Product> products= productService.getProductByRelease(status);
+            List<Product> products= productService.getProductByRelease(user.getId(), status);
             return responseHandler.response(products, "Success", HttpStatus.OK);
         }catch (Exception e){
             return responseHandler.response(null, ""+e, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,22 +58,15 @@ public class ProductController {
     }
     @GetMapping("/search/{name}")
     public ResponseEntity<Object> getProductsByName(@PathVariable String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int pageSize){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        User user= (User) auth.getPrincipal();
         try{
-            Page<Product> productPage= productService.getAllByName(name, page, pageSize);
+            Page<Product> productPage= productService.getAllByName(name, user.getId(), page, pageSize);
             return responseHandler.response(productPage, "Success", HttpStatus.OK);
         }catch (Exception e){
             return responseHandler.response(null, ""+e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-/*    private ResponseEntity<Object> getObjectResponseEntity(Page<Product> productPage) {
-        Map<String, Object> response=new HashMap<>();
-        response.put("products", productPage.getContent());
-        response.put("currentPage", productPage.getNumber());
-        response.put("totalItems", productPage.getTotalElements());
-        response.put("totalPages", productPage.getTotalPages());
-        return responseHandler.response(response, "Success", HttpStatus.OK);
-    }*/
 
     @PostMapping
     public ResponseEntity<Object> createProduct(@RequestBody Product product){
