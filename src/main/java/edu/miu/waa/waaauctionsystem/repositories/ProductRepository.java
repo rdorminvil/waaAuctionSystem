@@ -19,6 +19,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.isRelease=true")
+    @Query("SELECT p FROM Product p WHERE p.isRelease=true and p.bidDueDate > current_date")
     Page<Product> findAllProductsByIsReleased(Pageable pageable);
 }
