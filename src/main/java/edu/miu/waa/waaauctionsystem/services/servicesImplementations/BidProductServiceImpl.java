@@ -93,13 +93,15 @@ public class BidProductServiceImpl implements BidProductService {
     }
 
     @Override
-    public Page<BidProduct> findBidProductByUserId(Long id) {
-        return bidProductRepository.findBidProductByUserId(id);
+    public Page<BidProduct> findBidProductByUserId(Long id, int page, int pageSize) {
+        Pageable pageable=PageRequest.of(page, pageSize);
+        return bidProductRepository.findBidProductByUserId(id, pageable);
     }
 
     @Override
-    public Page<BidProduct> findBidProductByUserIdAndProductId(Long userId, Long productId) {
-        return bidProductRepository.findBidProductByUserIdAndProductId(userId, productId);
+    public Page<BidProduct> findBidProductByUserIdAndProductId(Long userId, Long productId, int page, int pageSize) {
+        Pageable pageable=PageRequest.of(page, pageSize);
+        return bidProductRepository.findBidProductByUserIdAndProductId(userId, productId, pageable);
     }
 
     @Override
