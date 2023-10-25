@@ -19,6 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p JOIN p.userSeller pu where LOWER(p.name) = LOWER(:name) and pu.id!=:seller_Id")
     Page<Product> findProdByNameAndUser( String name, Long seller_Id, Pageable pageable);
+
     @Query("SELECT p FROM Product p WHERE p.isRelease=true")
     Page<Product> findAllProductsByIsReleased(Pageable pageable);
 }
