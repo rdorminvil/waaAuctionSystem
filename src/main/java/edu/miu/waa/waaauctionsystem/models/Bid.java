@@ -15,11 +15,14 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Column(name = "bidId")
     private Long id;
-    private float Deposit;
+    private float deposit;
     private LocalDate biddingDate;
-    @ManyToOne
-    private BidProduct bidProduct;
+/*    @ManyToOne
+    private BidProduct bidProduct;*/
 
-    public Bid(float deposit, LocalDate now, BidProduct bidProduct) {
+    public Bid(float deposit, LocalDate now) {
+        this.deposit=deposit;
+        this.biddingDate=now;
+        //this.bidProduct=bidProduct;
     }
 }

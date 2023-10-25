@@ -14,10 +14,11 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByName(String name, Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE p.isRelease=?1")
-    List<Product> findProductsByRelease(boolean release);
+    @Query("SELECT p FROM Product p WHERE p.userSeller.id=?1 and p.isRelease=?2")
+    List<Product> findProductsByRelease(Long id, boolean release);
 
-    Page<Product> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
+    @Query("SELECT p FROM Product p JOIN p.userSeller pu where LOWER(p.name) = LOWER(:name) and pu.id!=:seller_Id")
+    Page<Product> findProdByNameAndUser( String name, Long seller_Id, Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE p.isRelease=true")
     Page<Product> findAllProductsByIsReleased(Pageable pageable);

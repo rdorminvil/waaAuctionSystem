@@ -56,6 +56,9 @@ public class UserServiceImpl implements UserService {
             uu.setEmail(user.getEmail());
             uu.setPassword(user.getPassword());
             uu.setRoles(user.getRoles());
+            uu.setAccountBalance(user.getAccountBalance());
+            uu.setProducts(user.getProducts());
+            userRepository.save(uu);
         });
         return userRepository.findById(id).orElse(null);
     }

@@ -25,8 +25,8 @@ public class User implements UserDetails {
     private List<Role> roles;
     @OneToMany(mappedBy = "userSeller", fetch = FetchType.LAZY)
     private List<Product> products;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<BidProduct> bidProducts;
+/*    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<BidProduct> bidProducts;*/
     private float accountBalance=10000;
     public Role addRole(Role role){
         this.roles.add(role);

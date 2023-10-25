@@ -28,10 +28,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getAllByName(String name, int page, int pageSize) {
+    public Page<Product> getAllByName(String name, Long id, int page, int pageSize) {
         Pageable pageable=PageRequest.of(page, pageSize);
-        System.out.println("this is output"+productRepository.findAllByName(name, pageable));
-        return productRepository.findAllByNameContainingIgnoreCase(name, pageable);
+        //System.out.println("this is output"+productRepository.findAllByName(name, pageable));
+        return productRepository.findProdByNameAndUser(name, id, pageable);
     }
 
     @Override
@@ -55,6 +55,9 @@ public class ProductServiceImpl implements ProductService {
                     prod.setBidPaymentDueDate(product.getBidPaymentDueDate());
                     prod.setBidStartPrice(product.getBidStartPrice());
                     prod.setRelease(product.isRelease());
+                    prod.setCategory(product.getCategory());
+                    prod.setUserSeller(product.getUserSeller());
+                    prod.setBidCount(product.getBidCount());
                     productRepository.save(prod);
                 }else {
                     throw new RuntimeException("Product has been release");
@@ -71,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductByRelease(boolean release) {
-        return productRepository.findProductsByRelease(release);
+    public List<Product> getProductByRelease(Long id, boolean release) {
+        return productRepository.findProductsByRelease(id, release);
     }
 }
