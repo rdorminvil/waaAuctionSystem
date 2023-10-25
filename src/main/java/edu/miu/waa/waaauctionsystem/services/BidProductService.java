@@ -15,4 +15,7 @@ public interface BidProductService {
     public Page<BidProduct> getAllBidProductByCustomer();
     public Page<BidProduct> getBidsByUserId(Long id, int page, int pageSize);
     public Page<BidProduct> getBidsByProductId(Long id, int page, int pageSize);
+    public Page<BidProduct> findBidProductByUserId(Long id, int page, int pageSize);
+    public Page<BidProduct> findBidProductByUserIdAndProductId(Long userId, Long productId, int page, int pageSize);
+
 }

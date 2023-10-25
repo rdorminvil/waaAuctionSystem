@@ -1,6 +1,8 @@
 package edu.miu.waa.waaauctionsystem.services.servicesImplementations;
 
+import edu.miu.waa.waaauctionsystem.models.BidProduct;
 import edu.miu.waa.waaauctionsystem.models.Product;
+import edu.miu.waa.waaauctionsystem.repositories.BidProductRepository;
 import edu.miu.waa.waaauctionsystem.repositories.ProductRepository;
 import edu.miu.waa.waaauctionsystem.services.ProductService;
 import lombok.RequiredArgsConstructor;
