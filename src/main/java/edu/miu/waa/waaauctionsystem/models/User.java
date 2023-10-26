@@ -1,5 +1,7 @@
 package edu.miu.waa.waaauctionsystem.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +26,7 @@ public class User implements UserDetails {
     @CollectionTable(name = "role", joinColumns = @JoinColumn(name = "userId"))
     private List<Role> roles;
     @OneToMany(mappedBy = "userSeller", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Product> products;
 /*    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<BidProduct> bidProducts;*/
@@ -32,13 +35,11 @@ public class User implements UserDetails {
         this.roles.add(role);
         return role;
     }
-    public User increaseBalance(float value){
+    public void increaseBalance(float value){
         this.accountBalance+=value;
-        return this;
     }
-    public User decreaseBalance(float value){
+    public void decreaseBalance(float value){
         this.accountBalance-=value;
-        return this;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

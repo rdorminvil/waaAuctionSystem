@@ -1,5 +1,6 @@
 package edu.miu.waa.waaauctionsystem.repositories;
 
+import edu.miu.waa.waaauctionsystem.models.Bid;
 import edu.miu.waa.waaauctionsystem.models.BidProduct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ public interface BidProductRepository extends JpaRepository<BidProduct, Long> {
     public List<BidProduct> findAllByUser_Id(Long id);
     public Page<BidProduct> findBidProductByUserId(Long id, Pageable pageable);
     public Page<BidProduct> findBidProductByUserIdAndProductId(Long userId, Long productId, Pageable pageable);
+    @Query("SELECT bp.bids FROM BidProduct bp JOIN bp.bids b WHERE bp.product.id=?1 ORDER BY b.biddingDate DESC LIMIT 1")
+    public Bid findTopBid(Long productId);
 
 /*    @Query("select bi from BidProduct bp join Bid bi where bp.product.id=?1 and bp.user=?2")
     public Page<BidProduct> getBidByProductId(Long productId, Long userId);

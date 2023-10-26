@@ -48,16 +48,17 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Long id, Product product) {
         Optional<Product> updatedProduct= productRepository.findById(id);
          updatedProduct.ifPresent(prod->{
-                if (!prod.isRelease()) {
+                if (!prod.isProdRelease()) {
                     prod.setName(product.getName());
                     prod.setDescription(product.getDescription());
                     prod.setBidDueDate(product.getBidDueDate());
                     prod.setBidPaymentDueDate(product.getBidPaymentDueDate());
                     prod.setBidStartPrice(product.getBidStartPrice());
-                    prod.setRelease(product.isRelease());
+                    prod.setProdRelease(product.isProdRelease());
                     prod.setCategory(product.getCategory());
                     prod.setUserSeller(product.getUserSeller());
                     prod.setBidCount(product.getBidCount());
+                    prod.setDepositAmount(product.getDepositAmount());
                     productRepository.save(prod);
                 }else {
                     throw new RuntimeException("Product has been release");
@@ -69,8 +70,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getProductByPage(int page, int pageSize) {
+        System.out.println("this a list"+productRepository.findAll());
         Pageable pageable= PageRequest.of(page, pageSize);
-        return productRepository.findAllProductsByIsReleased(pageable);
+//        return productRepository.findAllProductsByIsReleasedTrue(pageable);
+        return productRepository.findAll(pageable);
     }
 
     @Override

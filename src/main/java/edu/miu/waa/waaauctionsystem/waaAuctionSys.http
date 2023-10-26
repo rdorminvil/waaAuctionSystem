@@ -18,19 +18,41 @@ Content-Type: application/json
 }
 
 ###
-POST localhost:8080/api/products
+POST localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-  "name": "Learn Java",
+"email": "g@miu.edu",
+"password": "bc123"
+}
+
+###
+POST localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Cameron",
+  "email": "g@miu.edu",
+  "password": "bc123",
+  "roles": ["SELLER"]
+}
+
+###
+POST localhost:8080/api/products
+Content-Type: application/json
+Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM1NjU4MSwiZXhwIjoyMDU4MzU2NTgxfQ.mI_7f5h8gklWvRZibwEjak9PwUQCW5dPc0YPjYOugVplngkA40-rRjOMPDpwnoiJ5nQKEuGFjE4Dpc_SEliENg
+#Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM0NzI5OCwiZXhwIjoxNjk4MzUwODk4fQ.N8xZb_F8-KxiPQ3dsmCKXaPSE0sNCpRoReSBSi1lwv0wAhdFjCkuqRn4Awlx-sZC171FFWTgPC0ng-JV_ULZaw
+#Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGJnQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM0NzkxNSwiZXhwIjoxNjk4MzUxNTE1fQ.l7M8BcjHh5ScbzgUCVP9Lqw9VyU6EAWUtvQIHQcxedzhQfb6Hb1tBGurGwCATo9robdkPgEWst_TM26VX5T0rg
+
+{
+  "name": "JS",
   "description" : "Book that help you to learn Java",
   "startPrice" : 12.0,
   "bidDueDate" : "2023-08-08",
+  "depositAmount": 40,
   "bidPaymentDueDate" : "2023-08-10",
-  "categories": [{
-    "name" : "Book"
-  }],
-  "release" : false
+  "categories": "Book",
+  "prodRelease" : false
 }
 
 ###
@@ -46,14 +68,22 @@ Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGJjQG1pdS5lZHUiLCJpc3MiO
 ###
 POST localhost:8080/api/bidproduct
 Content-Type: application/json
+#Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM1NjU4MSwiZXhwIjoyMDU4MzU2NTgxfQ.mI_7f5h8gklWvRZibwEjak9PwUQCW5dPc0YPjYOugVplngkA40-rRjOMPDpwnoiJ5nQKEuGFjE4Dpc_SEliENg
+Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGdAbWl1LmVkdSIsImlzcyI6IkFVIiwiaWF0IjoxNjk4MzU4MDY4LCJleHAiOjIwNTgzNTgwNjh9.c-6RBuSKhlZqXcnkrI17-oBPfVxMVTFI2b-Rl91Nwa34eAhJSOY05w7SkqlpxCqrCTZ7ElBTM4NyT0xtH1Ehqw
 
 {
-  "productId" : 4,
-  "email": "bc@miu.edu",
-  "deposit" : 600.0
+  "productId" : 2,
+  "deposit" : 1002.0
 }
 
 ###
-GET localhost:8080/api/users/1
+###
+POST localhost:8080/api/products
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGpmQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODA5MTkwOCwiZXhwIjoxNjk4MDk1NTA4fQ.qTc7_nePjgRq2o4as-kqrskMZcdIj9gTbMYuaFeuAT0QyUDEm6_jrFkIbu-8QzkYK-MeqQX8x42zWlkRZSkYNg
+
+###
+GET localhost:8080/api/products?page=1&pageSize=3
+Content-Type: application/json
+#Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGJnQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM0NzkxNSwiZXhwIjoxNjk4MzUxNTE1fQ.l7M8BcjHh5ScbzgUCVP9Lqw9VyU6EAWUtvQIHQcxedzhQfb6Hb1tBGurGwCATo9robdkPgEWst_TM26VX5T0rg
+#Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM0NzI5OCwiZXhwIjoxNjk4MzUwODk4fQ.N8xZb_F8-KxiPQ3dsmCKXaPSE0sNCpRoReSBSi1lwv0wAhdFjCkuqRn4Awlx-sZC171FFWTgPC0ng-JV_ULZaw
+Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGdAbWl1LmVkdSIsImlzcyI6IkFVIiwiaWF0IjoxNjk4MzU4MDY4LCJleHAiOjIwNTgzNTgwNjh9.c-6RBuSKhlZqXcnkrI17-oBPfVxMVTFI2b-Rl91Nwa34eAhJSOY05w7SkqlpxCqrCTZ7ElBTM4NyT0xtH1Ehqw

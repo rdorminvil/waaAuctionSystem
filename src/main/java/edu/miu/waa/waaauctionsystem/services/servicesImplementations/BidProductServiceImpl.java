@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,11 @@ public class BidProductServiceImpl implements BidProductService {
         return null;
     }
     @Override
-    public BidProduct createBidProduct(String email, Long productId, float deposit) {
+    public Bid findTopBid(Long productId){
+        return bidProductRepository.findTopBid(productId);
+    }
+    @Override
+    public BidProduct createBidProduct(String email, Long productId, float deposit) throws Exception {
             List<BidProduct> bidProducts=getBidProductByEmail(email);
             BidProduct bidProduct=null;
             if (!bidProducts.isEmpty()) {
@@ -50,32 +55,47 @@ public class BidProductServiceImpl implements BidProductService {
                     }
                 }
             }
+
+        System.out.println("First part");
            if (null!=bidProduct) {
+               Bid lastBid=findTopBid(bidProduct.getProduct().getId());
                 if (!bidProduct.isCompleted()) {
-                    Bid bid = new Bid(deposit, LocalDate.now());
-                    bidProduct.addBid(bid);
-                    updateBidProduct(bidProduct.getId(), bidProduct);
-                    bidService.createBid(bid);
-                    User user = userService.getByEmail(email).orElse(null);
-                    if (null != user){
-                        user.decreaseBalance(deposit);
-                        userService.updateUser(user.getId(), user);
+                    System.out.println("deposit "+lastBid.getDeposit());
+                    if (lastBid.getDeposit()<deposit) {
+                        Bid bid = new Bid(deposit, LocalDateTime.now());
+                        bidProduct.addBid(bid);
+                        updateBidProduct(bidProduct.getId(), bidProduct);
+                        bidService.createBid(bid);
+                        User user = userService.getByEmail(email).orElse(null);
+                        return bidProduct;
+                    }else {
+                        throw new Exception("You deposit should be greater than the last BID deposit");
                     }
-                    return bidProduct;
+                }else {
+                    throw new Exception("This is Completed and Closed");
                 }
             }
-           User user = userService.getByEmail(email).orElse(null);
+        System.out.println("Second part");
+        User user = userService.getByEmail(email).orElse(null);
         Product product = productService.getById(productId).orElse(null);
         if (null != user && null != product) {
-                Bid newBid = new Bid(deposit, LocalDate.now());
+            if (!user.getId().equals(product.getUserSeller().getId())) {
+                Bid newBid = new Bid(deposit, LocalDateTime.now());
                 BidProduct newBidProduct = new BidProduct(user, product, newBid);
-                BidProduct createdNewBidProduct =bidProductRepository.save(newBidProduct) ;
-                user.decreaseBalance(deposit);
+                BidProduct createdNewBidProduct = bidProductRepository.save(newBidProduct);
+                if ((product.getBidStartPrice() != 0)) {
+                    user.decreaseBalance(product.getDepositAmount());
+                } else {
+                    user.decreaseBalance(product.getBidStartPrice()*0.1f);
+                }
                 userService.updateUser(user.getId(), user);
                 product.increaseBidCount();
                 productService.updateProduct(productId, product);
-                return newBidProduct ;
+                return createdNewBidProduct;
+            }else {
+                throw new Exception("Can't ben on your Own product");
             }
+        }
         return null;
     }
 

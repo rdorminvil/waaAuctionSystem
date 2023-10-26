@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,11 +17,11 @@ public class Bid {
     //@Column(name = "bidId")
     private Long id;
     private float deposit;
-    private LocalDate biddingDate;
+    private LocalDateTime biddingDate;
 /*    @ManyToOne
     private BidProduct bidProduct;*/
 
-    public Bid(float deposit, LocalDate now) {
+    public Bid(float deposit, LocalDateTime now) {
         this.deposit=deposit;
         this.biddingDate=now;
         //this.bidProduct=bidProduct;

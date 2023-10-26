@@ -3,6 +3,7 @@ package edu.miu.waa.waaauctionsystem.controllers;
 import edu.miu.waa.waaauctionsystem.libs.ResponseHandler;
 import edu.miu.waa.waaauctionsystem.models.Product;
 import edu.miu.waa.waaauctionsystem.models.User;
+import edu.miu.waa.waaauctionsystem.models.authentication.AuthenticationUserInfo;
 import edu.miu.waa.waaauctionsystem.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,7 @@ public class ProductController {
     public ResponseEntity<Object> getProducts(@RequestParam int page, @RequestParam int pageSize){
 
         try{
+            System.out.println("Response "+productService.getProductByPage(page, pageSize).getContent());
             Page<Product> productPage= productService.getProductByPage(page, pageSize);
             return responseHandler.response(productPage, "Success", HttpStatus.OK);
         }catch (Exception e){
@@ -47,11 +49,11 @@ public class ProductController {
 
     @GetMapping("/released")
     public ResponseEntity<Object> getReleasedProducts(@RequestParam boolean status){
-        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-        User user= (User) auth.getPrincipal();
+/*        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        User user= (User) auth.getPrincipal();*/
         try{
-            List<Product> products= productService.getProductByRelease(user.getId(), status);
-            System.out.println(user.getId());
+            List<Product> products= productService.getProductByRelease(AuthenticationUserInfo.getUser().getId(), status);
+            System.out.println(AuthenticationUserInfo.getUser().getId());
             return responseHandler.response(products, "Success", HttpStatus.OK);
         }catch (Exception e){
             System.out.println(e);
@@ -60,10 +62,10 @@ public class ProductController {
     }
     @GetMapping("/search/{name}")
     public ResponseEntity<Object> getProductsByName(@PathVariable String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int pageSize){
-        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-        User user= (User) auth.getPrincipal();
+/*        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        User user= (User) auth.getPrincipal();*/
         try{
-            Page<Product> productPage= productService.getAllByName(name, user.getId(), page, pageSize);
+            Page<Product> productPage= productService.getAllByName(name, AuthenticationUserInfo.getUser().getId(), page, pageSize);
             return responseHandler.response(productPage, "Success", HttpStatus.OK);
         }catch (Exception e){
             return responseHandler.response(null, ""+e, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,9 +74,9 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Object> createProduct(@RequestBody Product product){
-        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-        User user= (User) auth.getPrincipal();
-        product.setUserSeller(user);
+        System.out.println("prod "+product);
+        product.setUserSeller(AuthenticationUserInfo.getUser());
+        System.out.println(AuthenticationUserInfo.getUser());
         Product createdProduct=productService.creatProduct(product);
         if (null!=createdProduct){
             return responseHandler.response(createdProduct, "Success", HttpStatus.OK);
