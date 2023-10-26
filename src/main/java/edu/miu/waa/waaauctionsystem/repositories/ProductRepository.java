@@ -17,11 +17,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.userSeller.id=?1 and p.prodRelease=?2")
     List<Product> findProductsByRelease(Long id, boolean release);
 
-    @Query("SELECT p FROM Product p JOIN p.userSeller pu where LOWER(p.name) = LOWER(:name) and pu.id!=:seller_Id")
+    @Query("SELECT p FROM Product p JOIN p.userSeller pu WHERE p.name=?1 and pu.name<>?2")
     Page<Product> findProdByNameAndUser( String name, Long seller_Id, Pageable pageable);
 
-    //@Query("SELECT p FROM Product p WHERE p.prodRelease=true")
-    @Query("SELECT p FROM Product p")
+    @Query("SELECT p FROM Product p WHERE p.prodRelease=true")
     Page<Product> findAllProductsByIsReleasedTrue(Pageable pageable);
     @Query("SELECT p FROM Product p")
     List<Product> findAllProductsByIsReleasedTr();

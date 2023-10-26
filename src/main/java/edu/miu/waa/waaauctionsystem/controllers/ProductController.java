@@ -37,9 +37,7 @@ public class ProductController {
     }
     @GetMapping
     public ResponseEntity<Object> getProducts(@RequestParam int page, @RequestParam int pageSize){
-
         try{
-            System.out.println("Response "+productService.getProductByPage(page, pageSize).getContent());
             Page<Product> productPage= productService.getProductByPage(page, pageSize);
             return responseHandler.response(productPage, "Success", HttpStatus.OK);
         }catch (Exception e){
@@ -49,8 +47,6 @@ public class ProductController {
 
     @GetMapping("/released")
     public ResponseEntity<Object> getReleasedProducts(@RequestParam boolean status){
-/*        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-        User user= (User) auth.getPrincipal();*/
         try{
             List<Product> products= productService.getProductByRelease(AuthenticationUserInfo.getUser().getId(), status);
             System.out.println(AuthenticationUserInfo.getUser().getId());
@@ -73,7 +69,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createProduct(@RequestBody Product product){
+    public ResponseEntity<Object> createProduct(@RequestBody Product product) throws Exception {
         System.out.println("prod "+product);
         product.setUserSeller(AuthenticationUserInfo.getUser());
         System.out.println(AuthenticationUserInfo.getUser());

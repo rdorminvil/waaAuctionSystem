@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -35,8 +36,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product creatProduct(Product product) {
-        return productRepository.save(product);
+    public Product creatProduct(Product product) throws Exception {
+        if (product.getBidPaymentDueDate().isAfter(LocalDate.now())) {
+            return productRepository.save(product);
+        }else {
+            throw new Exception("Bid Payment Due Date should be greater the creation Date of the product");
+        }
     }
 
     @Override
@@ -70,10 +75,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getProductByPage(int page, int pageSize) {
-        System.out.println("this a list"+productRepository.findAll());
         Pageable pageable= PageRequest.of(page, pageSize);
-//        return productRepository.findAllProductsByIsReleasedTrue(pageable);
-        return productRepository.findAll(pageable);
+        return productRepository.findAllProductsByIsReleasedTrue(pageable);
     }
 
     @Override
