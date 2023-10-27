@@ -13,7 +13,7 @@ public interface ProductService {
     public Product creatProduct(Product product) throws Exception;
     public void deleteProductById(Long id);
     public Product updateProduct(Long id, Product product);
-    public Page<Product> getProductByPage(int page, int pageSize);
+    public Page<Product> getProductByPage(Long userId, int page, int pageSize);
 
     public List<Product> getProductByRelease(Long id, boolean release);
 

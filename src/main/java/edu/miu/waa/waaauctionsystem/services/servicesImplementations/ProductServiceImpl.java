@@ -73,9 +73,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProductByPage(int page, int pageSize) {
+    public Page<Product> getProductByPage(Long userId, int page, int pageSize) {
         Pageable pageable= PageRequest.of(page, pageSize);
-        return productRepository.findAllProductsByIsReleasedTrue(pageable);
+        return productRepository.findAllProductsByIsReleasedTrue(userId, pageable);
     }
 
     @Override

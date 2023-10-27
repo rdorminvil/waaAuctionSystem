@@ -38,7 +38,7 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<Object> getProducts(@RequestParam int page, @RequestParam int pageSize){
         try{
-            Page<Product> productPage= productService.getProductByPage(page, pageSize);
+            Page<Product> productPage= productService.getProductByPage(AuthenticationUserInfo.getUser().getId(), page, pageSize);
             return responseHandler.response(productPage, "Success", HttpStatus.OK);
         }catch (Exception e){
             return responseHandler.response(null, ""+e, HttpStatus.INTERNAL_SERVER_ERROR);
