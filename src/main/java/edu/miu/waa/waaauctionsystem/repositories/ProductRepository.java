@@ -14,6 +14,9 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByName(String name, Pageable pageable);
 
+    @Query("SELECT p FROM Product p WHERE p.id=?1")
+    Product getProduct(Long id);
+
     @Query("SELECT p FROM Product p WHERE p.userSeller.id=?1 and p.prodRelease=?2")
     List<Product> findProductsByRelease(Long id, boolean release);
 

@@ -56,7 +56,6 @@ public class BidProductServiceImpl implements BidProductService {
                 }
             }
 
-        System.out.println("First part");
            if (null!=bidProduct) {
                Bid lastBid=findTopBid(bidProduct.getProduct().getId());
                 if (!bidProduct.isCompleted()) {
@@ -75,9 +74,8 @@ public class BidProductServiceImpl implements BidProductService {
                     throw new Exception("This is Completed and Closed");
                 }
             }
-        System.out.println("Second part");
         User user = userService.getByEmail(email).orElse(null);
-        Product product = productService.getById(productId).orElse(null);
+        Product product = productService.getById(productId);
         if (null != user && null != product) {
             if (!user.getId().equals(product.getUserSeller().getId())) {
                 Bid newBid = new Bid(deposit, LocalDateTime.now());

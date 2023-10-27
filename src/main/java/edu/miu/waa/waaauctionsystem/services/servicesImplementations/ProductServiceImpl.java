@@ -1,8 +1,6 @@
 package edu.miu.waa.waaauctionsystem.services.servicesImplementations;
 
-import edu.miu.waa.waaauctionsystem.models.BidProduct;
 import edu.miu.waa.waaauctionsystem.models.Product;
-import edu.miu.waa.waaauctionsystem.repositories.BidProductRepository;
 import edu.miu.waa.waaauctionsystem.repositories.ProductRepository;
 import edu.miu.waa.waaauctionsystem.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +22,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getById(Long id) {
-        return productRepository.findById(id);
+    public Product getById(Long id) throws Exception {
+        if (null!=productRepository.getProduct(id)){
+            return productRepository.getProduct(id);
+        }else {
+            throw new Exception("Product not found");
+        }
     }
 
     @Override

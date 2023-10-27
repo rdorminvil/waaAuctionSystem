@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -29,11 +30,11 @@ public class ProductController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Object> getProduct(@PathVariable Long id){
-        Product product=productService.getById(id).orElse(null);
-        if(null!=product){
-            return responseHandler.response(product, "Success", HttpStatus.OK);
+        try{
+            return responseHandler.response(productService.getById(id), "Success", HttpStatus.OK);
+        }catch (Exception e){
+            return responseHandler.response(null, ""+e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return responseHandler.response(null, "Not Found", HttpStatus.NOT_FOUND);
     }
     @GetMapping
     public ResponseEntity<Object> getProducts(@RequestParam int page, @RequestParam int pageSize){
