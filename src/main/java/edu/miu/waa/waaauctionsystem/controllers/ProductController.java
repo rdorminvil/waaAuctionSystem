@@ -58,8 +58,6 @@ public class ProductController {
     }
     @GetMapping("/search/{name}")
     public ResponseEntity<Object> getProductsByName(@PathVariable String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int pageSize){
-/*        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-        User user= (User) auth.getPrincipal();*/
         try{
             Page<Product> productPage= productService.getAllByName(name, AuthenticationUserInfo.getUser().getId(), page, pageSize);
             return responseHandler.response(productPage, "Success", HttpStatus.OK);
@@ -69,15 +67,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createProduct(@RequestBody Product product) throws Exception {
-        System.out.println("prod "+product);
+    public ResponseEntity<Object> createProduct(@RequestBody Product product) {
         product.setUserSeller(AuthenticationUserInfo.getUser());
-        System.out.println(AuthenticationUserInfo.getUser());
-        Product createdProduct=productService.creatProduct(product);
-        if (null!=createdProduct){
+        try{
+            Product createdProduct=productService.creatProduct(product);
             return responseHandler.response(createdProduct, "Success", HttpStatus.OK);
+        }catch (Exception e){
+            return responseHandler.response(null, ""+e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return responseHandler.response(null, "Failed", HttpStatus.EXPECTATION_FAILED);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable Long id){

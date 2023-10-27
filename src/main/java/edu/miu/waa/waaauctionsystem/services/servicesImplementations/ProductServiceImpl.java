@@ -31,7 +31,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getAllByName(String name, Long id, int page, int pageSize) {
         Pageable pageable=PageRequest.of(page, pageSize);
-        //System.out.println("this is output"+productRepository.findAllByName(name, pageable));
         return productRepository.findProdByNameAndUser(name, id, pageable);
     }
 

@@ -11,8 +11,8 @@ POST localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "name": "Bob Cameron",
-  "email": "bc@miu.edu",
+  "name": "AAABob Cameron",
+  "email": "ba@miu.edu",
   "password": "bc123",
   "roles": ["SELLER"]
 }
@@ -22,7 +22,7 @@ POST localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-"email": "g@miu.edu",
+"email": "ba@miu.edu ",
 "password": "bc123"
 }
 
@@ -40,8 +40,8 @@ Content-Type: application/json
 ###
 POST localhost:8080/api/products
 Content-Type: application/json
-Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM1NjU4MSwiZXhwIjoyMDU4MzU2NTgxfQ.mI_7f5h8gklWvRZibwEjak9PwUQCW5dPc0YPjYOugVplngkA40-rRjOMPDpwnoiJ5nQKEuGFjE4Dpc_SEliENg
-#Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM0NzI5OCwiZXhwIjoxNjk4MzUwODk4fQ.N8xZb_F8-KxiPQ3dsmCKXaPSE0sNCpRoReSBSi1lwv0wAhdFjCkuqRn4Awlx-sZC171FFWTgPC0ng-JV_ULZaw
+#Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM1NjU4MSwiZXhwIjoyMDU4MzU2NTgxfQ.mI_7f5h8gklWvRZibwEjak9PwUQCW5dPc0YPjYOugVplngkA40-rRjOMPDpwnoiJ5nQKEuGFjE4Dpc_SEliENg
+Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzLGJhQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM2MzMwNSwiZXhwIjoyMDU4MzYzMzA1fQ.TQM8BuEvAJ4MiOf8uTEXuq6MuhqrfMw4yMB5wPlYAXYMI_RelhLnbcSzh1VdQaAfM4h0M422A75fTpQUp0Ozlw
 #Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGJnQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM0NzkxNSwiZXhwIjoxNjk4MzUxNTE1fQ.l7M8BcjHh5ScbzgUCVP9Lqw9VyU6EAWUtvQIHQcxedzhQfb6Hb1tBGurGwCATo9robdkPgEWst_TM26VX5T0rg
 
 {
@@ -50,8 +50,8 @@ Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJ
   "startPrice" : 12.0,
   "bidDueDate" : "2023-08-08",
   "depositAmount": 40,
-  "bidPaymentDueDate" : "2023-08-10",
-  "categories": "Book",
+  "bidPaymentDueDate" : "2023-12-10",
+  "category": "Book",
   "prodRelease" : false
 }
 
@@ -61,12 +61,12 @@ Content-Type: application/json
 Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODEzMDY3NiwiZXhwIjoxNjk4MTM0Mjc2fQ.xQN0OoQ7uWa6ZixxEXlM_WoIGreo8-OkNpmywniZTuBCD7uomCwsoGDp7qdWyM7Q9oPPvMgZGZ-E-a6Mp1tj0g
 
 ###
-GET localhost:8080/api/products?page=0&pageSize2
+GET localhost:8080/api/products?page=0&pageSize=3
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODEzMDY3NiwiZXhwIjoxNjk4MTM0Mjc2fQ.xQN0OoQ7uWa6ZixxEXlM_WoIGreo8-OkNpmywniZTuBCD7uomCwsoGDp7qdWyM7Q9oPPvMgZGZ-E-a6Mp1tj0g
 
 ###
-POST localhost:8080/api/bidproduct
+POST localhost:8080/api/bidproduct/released
 Content-Type: application/json
 #Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM1NjU4MSwiZXhwIjoyMDU4MzU2NTgxfQ.mI_7f5h8gklWvRZibwEjak9PwUQCW5dPc0YPjYOugVplngkA40-rRjOMPDpwnoiJ5nQKEuGFjE4Dpc_SEliENg
 Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGdAbWl1LmVkdSIsImlzcyI6IkFVIiwiaWF0IjoxNjk4MzU4MDY4LCJleHAiOjIwNTgzNTgwNjh9.c-6RBuSKhlZqXcnkrI17-oBPfVxMVTFI2b-Rl91Nwa34eAhJSOY05w7SkqlpxCqrCTZ7ElBTM4NyT0xtH1Ehqw
