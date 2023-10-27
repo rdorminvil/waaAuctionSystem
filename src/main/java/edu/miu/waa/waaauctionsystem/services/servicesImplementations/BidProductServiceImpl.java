@@ -83,7 +83,7 @@ public class BidProductServiceImpl implements BidProductService {
                 Bid newBid = new Bid(deposit, LocalDateTime.now());
                 BidProduct newBidProduct = new BidProduct(user, product, newBid);
                 BidProduct createdNewBidProduct = bidProductRepository.save(newBidProduct);
-                if ((product.getBidStartPrice() != 0)) {
+                if ((product.getDepositAmount() != 0)) {
                     user.decreaseBalance(product.getDepositAmount());
                 } else {
                     user.decreaseBalance(product.getBidStartPrice()*0.1f);
