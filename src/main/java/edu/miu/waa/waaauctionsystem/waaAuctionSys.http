@@ -47,7 +47,7 @@ Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzLGJhQG1pdS5lZHUiLCJpc3MiOiJ
 {
   "name": "Java",
   "description" : "Book that help you to learn Java",
-  "bidStartPrice" : 12.0,
+  "bidStartPrice" : 15.0,
   "bidDueDate" : "2023-08-08",
   "depositAmount": 40,
   "bidPaymentDueDate" : "2023-12-10",
@@ -71,7 +71,7 @@ Content-Type: application/json
 Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzLGJhQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM2MzMwNSwiZXhwIjoyMDU4MzYzMzA1fQ.TQM8BuEvAJ4MiOf8uTEXuq6MuhqrfMw4yMB5wPlYAXYMI_RelhLnbcSzh1VdQaAfM4h0M422A75fTpQUp0Ozlw
 
 ###
-POST localhost:8080/api/bidproduct/released
+POST localhost:8080/api/bidproduct
 Content-Type: application/json
 #Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxLGJjQG1pdS5lZHUiLCJpc3MiOiJBVSIsImlhdCI6MTY5ODM1NjU4MSwiZXhwIjoyMDU4MzU2NTgxfQ.mI_7f5h8gklWvRZibwEjak9PwUQCW5dPc0YPjYOugVplngkA40-rRjOMPDpwnoiJ5nQKEuGFjE4Dpc_SEliENg
 Authorization: bear eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyLGdAbWl1LmVkdSIsImlzcyI6IkFVIiwiaWF0IjoxNjk4MzU4MDY4LCJleHAiOjIwNTgzNTgwNjh9.c-6RBuSKhlZqXcnkrI17-oBPfVxMVTFI2b-Rl91Nwa34eAhJSOY05w7SkqlpxCqrCTZ7ElBTM4NyT0xtH1Ehqw

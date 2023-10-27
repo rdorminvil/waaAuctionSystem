@@ -59,7 +59,6 @@ public class BidProductServiceImpl implements BidProductService {
            if (null!=bidProduct) {
                Bid lastBid=findTopBid(bidProduct.getProduct().getId());
                 if (!bidProduct.isCompleted()) {
-                    System.out.println("deposit "+lastBid.getDeposit());
                     if (lastBid.getDeposit()<deposit) {
                         Bid bid = new Bid(deposit, LocalDateTime.now());
                         bidProduct.addBid(bid);
@@ -88,7 +87,7 @@ public class BidProductServiceImpl implements BidProductService {
                 }
                 userService.updateUser(user.getId(), user);
                 product.increaseBidCount();
-                productService.updateProduct(productId, product);
+                productService.updateProductWhenCreateBid(productId, product);
                 return createdNewBidProduct;
             }else {
                 throw new Exception("Can't ben on your Own product");

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface ProductService {
     public List<Product> getAll();
+    public Product updateProductWhenCreateBid(Long id, Product product);
     public Product getById(Long id) throws Exception;
     public Page<Product> getAllByName(String name, Long id, int page, int pageSize);
     public Product creatProduct(Product product) throws Exception;

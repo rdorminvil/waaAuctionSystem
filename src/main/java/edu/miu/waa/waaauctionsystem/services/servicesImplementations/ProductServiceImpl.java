@@ -49,7 +49,24 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(Long id) {
          productRepository.deleteById(id);
     }
-
+    public Product updateProductWhenCreateBid(Long id, Product product) {
+        Optional<Product> updatedProduct= productRepository.findById(id);
+        updatedProduct.ifPresent(prod->{
+                        prod.setName(product.getName());
+                        prod.setDescription(product.getDescription());
+                        prod.setBidDueDate(product.getBidDueDate());
+                        prod.setBidPaymentDueDate(product.getBidPaymentDueDate());
+                        prod.setBidStartPrice(product.getBidStartPrice());
+                        prod.setProdRelease(product.isProdRelease());
+                        prod.setCategory(product.getCategory());
+                        prod.setUserSeller(product.getUserSeller());
+                        prod.setBidCount(product.getBidCount());
+                        prod.setDepositAmount(product.getDepositAmount());
+                        productRepository.save(prod);
+                }
+        );
+        return productRepository.findById(id).orElse(null);
+    }
     @Override
     public Product updateProduct(Long id, Product product) {
         Optional<Product> updatedProduct= productRepository.findById(id);
